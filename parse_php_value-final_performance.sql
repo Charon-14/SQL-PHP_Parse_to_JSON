@@ -34,10 +34,10 @@ BEGIN
         WHEN 's' THEN
             -- Řetězec
             -- temp_array := regexp_match(temp_array[2], '^(\d+):"(.*)"');
-			i := strpos(temp_array[2], ':');
+		i := strpos(temp_array[2], ':');
         	array_size := substring(temp_array[2] FROM 1 FOR (i - 1))::integer;
         	temp_array[2] := substring(temp_array[2] FROM (i + 2) FOR (length(temp_array[2]) - (i + 2)));
-            result := '"' || temp_array[2] || '"';
+            	result := '"' || temp_array[2] || '"';
 			-- RAISE NOTICE 'parse_php_value: case type=string line=1 temp1=% temp2=%', temp_array[1],temp_array[2]; 
 
         WHEN 'a' THEN
@@ -47,30 +47,30 @@ BEGIN
 			
 			-- Vyjmutí počtu prvků v poli
 			-- temp_array := regexp_match(temp_array[2], '^(\d+):\{(.+)');
-            -- array_size := CAST(temp_array[1] AS INTEGER);
+            		-- array_size := CAST(temp_array[1] AS INTEGER);
 
 			i := strpos(temp_array[2], ':');
-        	-- array_size := substring(temp_array[2] FROM 1 FOR (i - 1))::integer;
+        		-- array_size := substring(temp_array[2] FROM 1 FOR (i - 1))::integer;
 			array_size := CAST(substring(temp_array[2] FROM 1 FOR (i - 1)) as INTEGER);
-        	temp_array[2] := substring(temp_array[2] FROM (i + 2));
+        		temp_array[2] := substring(temp_array[2] FROM (i + 2));
 
 			-- RAISE NOTICE 'parse_php_value: case type=array line=1 size=% temp1=% temp2=%', array_size, temp_array[1],temp_array[2]; 
             -- Zpracování každého prvku pole
             FOR i IN 1..array_size LOOP
 
-                -- Vyjmutí klíče a hodnoty
-                -- temp_array := regexp_match(temp_array[2], '([^;]+);(.+)');
-				-- Rozdělíme klíč a hodnotu pole
+                	-- Vyjmutí klíče a hodnoty
+                		-- temp_array := regexp_match(temp_array[2], '([^;]+);(.+)');
+			-- Rozdělíme klíč a hodnotu pole
 				j := strpos(temp_array[2], ';');
-    			temp_array[1] := substring(temp_array[2] FROM 1 FOR (j - 1));
-    			temp_array[2] := substring(temp_array[2] FROM (j + 1));
+    				temp_array[1] := substring(temp_array[2] FROM 1 FOR (j - 1));
+    				temp_array[2] := substring(temp_array[2] FROM (j + 1));
 
   				-- RAISE NOTICE 'parse_php_value: loop line=1a iterace=% temp1=% temp2=%', i, temp_array[1],temp_array[2]; 
 
 				-- Extrakce klíče pole
-  		        key_item := parse_php_value(temp_array[1]);
+  		        	key_item := parse_php_value(temp_array[1]);
 
-                -- Extrakce hodnoty pole podle typu hodnoty
+                		-- Extrakce hodnoty pole podle typu hodnoty
 				prefix := substring(temp_array[2] FROM 1 FOR 1);
 				CASE prefix
       				WHEN 'i', 'd', 'b' THEN
@@ -113,7 +113,7 @@ BEGIN
                 RAISE NOTICE 'parse_php_value: loop line=1b iterace=% temp1=% temp2=%', i, temp_array[1],temp_array[2]; 
 				RAISE NOTICE 'parse_php_value: loop line=2 iterace=% key_item=% value_item=%', i,key_item,value_item; 
 		*/
-                -- Formatovani výsledku
+                		-- Formatovani výsledku
 				if i != array_size then
 					result := result || ', ';
 				end if;
