@@ -137,8 +137,4 @@ END;
  $function$
 ;
 
--- Permissions
 
-ALTER FUNCTION public.parse_php_value(text) OWNER TO "admin";
-GRANT ALL ON FUNCTION public.parse_php_value(text) TO public;
-GRANT ALL ON FUNCTION public.parse_php_value(text) TO "admin";
